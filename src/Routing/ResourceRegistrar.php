@@ -128,10 +128,11 @@ class ResourceRegistrar
             $this->router,
             $this,
             $routes = new RouteCollection(),
-            $actionsResourceType ?? $resourceType,
+            $resourceType,
             $options,
             $controller,
-            $prefix
+            $prefix,
+            $actionsResourceType,
         );
 
         $this->router->group($attributes, function () use ($actions, $callback) {

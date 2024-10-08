@@ -55,6 +55,11 @@ class ActionRegistrar
     private ?string $prefix;
 
     /**
+     * @var string|null
+     */
+    private ?string $actionResourceType;
+
+    /**
      * @var bool
      */
     private bool $id = false;
@@ -77,7 +82,8 @@ class ActionRegistrar
         string $resourceType,
         array $options,
         string $controller,
-        string $prefix = null
+        string $prefix = null,
+        string $actionResourceType = null,
     ) {
         $this->router = $router;
         $this->resource = $resource;
@@ -86,6 +92,7 @@ class ActionRegistrar
         $this->options = $options;
         $this->controller = $controller;
         $this->prefix = $prefix;
+        $this->actionResourceType = $actionResourceType;
     }
 
     /**
@@ -221,7 +228,7 @@ class ActionRegistrar
             $this->options
         ));
 
-        $route->defaults(Route::RESOURCE_TYPE, $this->resourceType);
+        $route->defaults(Route::RESOURCE_TYPE, $this->actionResourceType ?? $this->resourceType);
 
         if ($parameter) {
             $route->defaults(Route::RESOURCE_ID_NAME, $parameter);
