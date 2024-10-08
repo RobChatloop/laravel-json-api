@@ -55,6 +55,8 @@ class PendingResourceRegistration
      */
     private ?string $actionsPrefix = null;
 
+    private ?string $actionsResourceType = null;
+
     /**
      * @var Closure|null
      */
@@ -227,19 +229,22 @@ class PendingResourceRegistration
      *
      * @param string|Closure $prefixOrCallback
      * @param Closure|null $callback
+     * @param string|null $resourceType
      * @return $this
      */
-    public function actions($prefixOrCallback, Closure $callback = null): self
+    public function actions($prefixOrCallback, Closure $callback = null, ?string $resourceType = null): self
     {
         if ($prefixOrCallback instanceof Closure && null === $callback) {
             $this->actionsPrefix = null;
             $this->actions = $prefixOrCallback;
+            $this->actionsResourceType = $resourceType;
             return $this;
         }
 
         if (is_string($prefixOrCallback) && !empty($prefixOrCallback) && $callback instanceof Closure) {
             $this->actionsPrefix = $prefixOrCallback;
             $this->actions = $callback;
+            $this->actionsResourceType = $resourceType;
             return $this;
         }
 
@@ -280,7 +285,8 @@ class PendingResourceRegistration
                 $this->controller,
                 $this->options,
                 $this->actionsPrefix,
-                $this->actions
+                $this->actions,
+                $this->actionsResourceType,
             );
 
             foreach ($actions as $route) {

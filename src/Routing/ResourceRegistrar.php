@@ -110,6 +110,7 @@ class ResourceRegistrar
      * @param array $options
      * @param string|null $prefix
      * @param Closure $callback
+     * @param string|null $actionsResourceType
      * @return RouteCollection
      */
     public function actions(
@@ -117,7 +118,8 @@ class ResourceRegistrar
         string $controller,
         array $options,
         ?string $prefix,
-        Closure $callback
+        Closure $callback,
+        ?string $actionsResourceType = null
     ): RouteCollection
     {
         $attributes = $this->getCustomActions($resourceType, $options);
@@ -126,7 +128,7 @@ class ResourceRegistrar
             $this->router,
             $this,
             $routes = new RouteCollection(),
-            $resourceType,
+            $actionsResourceType ?? $resourceType,
             $options,
             $controller,
             $prefix
